@@ -16,7 +16,13 @@ class Board:
                 print_symbol = (box.symbol if box.symbol else "O") if box.is_allowed else "-"
                 print(print_symbol,end=" ")
             print("")
-            
+
+    def getBox(self,postion):
+        if(postion.row>=self.board_length or postion.column>=self.board_length):
+            return None
+        else:
+            return self.board[postion.row][postion.column]
+
     '''
     loads the used box position in valid_positions
     '''            
@@ -70,7 +76,7 @@ class Board:
         for poistion in self.valid_positions:
             box = self.board[poistion.row][poistion.column]
             # making this box can be used one
-            box.updateisAllowed()
+            box.updateIsAllowed()
 
-b1 = Board()
-b1.displayBoard()
+#b1 = Board()
+#b1.displayBoard()

@@ -6,7 +6,7 @@ class Box:
         self.is_allowed = is_allowed
         self.symbol = symbol
 
-    def updateSymbol(self,symbol):
+    def updateSymbol(self,symbol=None):
         self.symbol = symbol
 
     # checks if the box is allowed (used/not used box)
@@ -20,6 +20,6 @@ class Box:
     def isBoxAvailable(self):
         return True if self.symbol== None else False
 
-    def updateisAllowed(self,is_allowed=True):
+    def updateIsAllowed(self,is_allowed=True):
         self.is_allowed = is_allowed
 
