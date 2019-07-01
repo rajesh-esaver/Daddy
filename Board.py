@@ -11,7 +11,7 @@ class Board:
         for row in range(len(self.board)):
             for col in range(len(self.board[row])):
                 box = self.board[row][col]
-                print_symbol = "O" if box.is_allowed else "-"
+                print_symbol = (box.symbol if box.symbol else "O") if box.is_allowed else "-"
                 print(print_symbol,end=" ")
             print("\n")
 
@@ -64,3 +64,6 @@ class Board:
             box = self.board[poistion.row][poistion.column]
             # making this box can be used one
             box.updateisAllowed()
+
+#b1 = Board()
+#b1.displayBoard()
