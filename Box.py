@@ -16,7 +16,7 @@ class Box:
         else:
             return False
 
-    # checks if the box is not already used by the user
+    # checks if the box is available to place the coin
     def isBoxAvailable(self):
         return True if self.symbol== None else False
 

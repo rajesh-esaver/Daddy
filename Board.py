@@ -4,6 +4,7 @@ from Position import Postion
 class Board:
     def __init__(self):
         self.board_length = 7
+        self.coins_for_daddy = 3
         self.board = [[Box() for _ in range(self.board_length)] for _ in range(self.board_length)]
         self.valid_positions = []
         self.loadValidPositions()
