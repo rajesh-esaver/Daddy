@@ -24,6 +24,12 @@ class Board:
         else:
             return self.board[postion.row][postion.column]
 
+    def getBox(self,row,column):
+        if(row>=self.board_length or column>=self.board_length):
+            return None
+        else:
+            return self.board[row][column]
+
     '''
     loads the used box position in valid_positions
     '''            
@@ -73,11 +79,10 @@ class Board:
     making the some of the boxes as usable boxes
     '''
     def loadDefaultBoard(self):
-
         for poistion in self.valid_positions:
             box = self.board[poistion.row][poistion.column]
             # making this box can be used one
             box.updateIsAllowed()
 
-#b1 = Board()
-#b1.displayBoard()
+# b1 = Board()
+# b1.displayBoard()

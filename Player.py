@@ -40,7 +40,7 @@ class Player:
     this method checks if there is a Daddy exist for placed position
     '''
     def checkIfItIsDaddy(self,position):
-        # check should happend for both column and row
+        # check should happen for both column and row
         box = self.board.getBox(position)
         if(box==None):
             return [False,"Not a valid position"]
@@ -99,8 +99,11 @@ class Player:
     function for moving the player coin
     '''
     def moveCoin(self,move):
-        src_box = self.board.getBox(move.src_position)
-        dst_box = self.board.getBox(move.dst_position)
+        src_position = move.src_position
+        dst_position = move.dst_position
+
+        src_box = self.board.getBox(src_position)
+        dst_box = self.board.getBox(dst_position)
 
         if(src_box==None or src_box.isBoxAllowed()==False or src_box.symobl!=self.player_symbol):
             return [False, "this is not a valid source box position"]
@@ -108,13 +111,109 @@ class Player:
         if (dst_box == None or dst_box.isBoxAllowed()==False or dst_box.isBoxAvailable()==False):
             return [False, "this is not a valid destination box position"]
 
-        # TODO check diff btw src and dst is one
+        if(src_box==dst_position):
+            return [False,"Source and Destination should not be same"]
+
+        # TODOcheck check diff btw src and dst is one
+        row_diff = abs(src_position.row - dst_position.row)
+        if (row_diff > 0):
+            # moved coin in the same column
+            if (not self.checkDstIsNextValidBoxInColumn(move)):
+                return [False, "this is not a valid destination box position"]
+        elif(row_diff==0):
+            # movied coin the the same row
+            if(not self.checkDstIsNextValidBoxInRow(move)):
+                return [False,"this is not a valid destination box position"]
+        else:
+            return [False, "this is not a valid source and destination box positions"]
 
         # remove the coin from current box and add the coin in destination
         src_box.updateSymbol()
         dst_box.updateSymbol(self.player_symbol)
 
         return [True, "Coin moved successfully"]
+
+
+    '''
+    check whether destination position is next valid position from source in row
+    '''
+    def checkDstIsNextValidBoxInRow(self,move):
+        src_position = move.src_position
+        dst_position = move.dst_position
+
+        curr_row = src_position.row
+
+        # if it is middle row, src and dst should be either <3 or >3 in the row
+        if(curr_row==3):
+            if(src_position.column<3 and dst_position.column<3):
+                pass
+            elif(src_position.column>3 and dst_position.column>3):
+                pass
+            else:
+                False
+
+        if(src_position.column < dst_position.column):
+            # moved forward in the row
+            for curr_col in range(src_position.column+1,self.board.board_length):
+                curr_box = self.board.getBox(curr_row,curr_col)
+                if(curr_box.isBoxAllowed()):
+                    if(curr_box.isBoxAvailable() and dst_position.column==curr_col):
+                        return True
+                    else:
+                        return False
+        elif(dst_position.column < src_position.column):
+            # moved backward in the row
+            for curr_col in range(src_position.column - 1,-1,-1):
+                curr_box = self.board.getBox(curr_row, curr_col)
+                if (curr_box.isBoxAllowed()):
+                    if (curr_box.isBoxAvailable() and dst_position.column == curr_col):
+                        return True
+                    else:
+                        return False
+        else:
+            return False
+        return False
+
+    '''
+    check whether destination position is next valid position from source in column
+    '''
+    def checkDstIsNextValidBoxInColumn(self,move):
+        src_position = move.src_position
+        dst_position = move.dst_position
+
+        curr_col = src_position.column
+
+        # if it is middle column, src and dst should be either <3 or >3 in the column
+        if (curr_col == 3):
+            if(src_position.row < 3 and dst_position.row < 3):
+                pass
+            elif(src_position.row > 3 and dst_position.row > 3):
+                pass
+            else:
+                False
+
+        if(src_position.row < dst_position.row):
+            # moved forward in the column
+            for curr_row in range(src_position.row + 1, self.board.board_length):
+                curr_box = self.board.getBox(curr_row, curr_col)
+                if (curr_box.isBoxAllowed()):
+                    if (curr_box.isBoxAvailable() and dst_position.row == curr_row):
+                        return True
+                    else:
+                        return False
+        elif(dst_position.row < src_position.row):
+            # moved backward in the column
+            for curr_row in range(src_position.row - 1,-1,-1):
+                curr_box = self.board.getBox(curr_row, curr_col)
+                if (curr_box.isBoxAllowed()):
+                    if (curr_box.isBoxAvailable() and dst_position.row == curr_row):
+                        return True
+                    else:
+                        return False
+        else:
+            return False
+        return False
+
 
     '''
     checking for daddy in row
