@@ -1,5 +1,5 @@
 from Box import Box
-from Position import Postion
+from Position import Position
 
 class Board:
     def __init__(self):
@@ -18,13 +18,13 @@ class Board:
                 print(print_symbol,end=" ")
             print("")
 
-    def getBox(self,postion):
-        if(postion.row>=self.board_length or postion.column>=self.board_length):
+    def getBox(self,Position):
+        if(Position.row>=self.board_length or Position.column>=self.board_length):
             return None
         else:
-            return self.board[postion.row][postion.column]
+            return self.board[Position.row][Position.column]
 
-    def getBox(self,row,column):
+    def getBoxFromRowAndColumn(self,row,column):
         if(row>=self.board_length or column>=self.board_length):
             return None
         else:
@@ -37,43 +37,43 @@ class Board:
         self.valid_positions = []
 
         # first row
-        self.valid_positions.append(Postion(0, 0))
-        self.valid_positions.append(Postion(0, 3))
-        self.valid_positions.append(Postion(0, 6))
+        self.valid_positions.append(Position(0, 0))
+        self.valid_positions.append(Position(0, 3))
+        self.valid_positions.append(Position(0, 6))
 
         # second row
-        self.valid_positions.append(Postion(1, 1))
-        self.valid_positions.append(Postion(1, 3))
-        self.valid_positions.append(Postion(1, 5))
+        self.valid_positions.append(Position(1, 1))
+        self.valid_positions.append(Position(1, 3))
+        self.valid_positions.append(Position(1, 5))
 
         # third row
-        self.valid_positions.append(Postion(2, 2))
-        self.valid_positions.append(Postion(2, 3))
-        self.valid_positions.append(Postion(2, 4))
+        self.valid_positions.append(Position(2, 2))
+        self.valid_positions.append(Position(2, 3))
+        self.valid_positions.append(Position(2, 4))
 
         # fourth row
-        self.valid_positions.append(Postion(3, 0))
-        self.valid_positions.append(Postion(3, 1))
-        self.valid_positions.append(Postion(3, 2))
-        self.valid_positions.append(Postion(3, 4))
-        self.valid_positions.append(Postion(3, 5))
-        self.valid_positions.append(Postion(3, 5))
-        self.valid_positions.append(Postion(3, 6))
+        self.valid_positions.append(Position(3, 0))
+        self.valid_positions.append(Position(3, 1))
+        self.valid_positions.append(Position(3, 2))
+        self.valid_positions.append(Position(3, 4))
+        self.valid_positions.append(Position(3, 5))
+        self.valid_positions.append(Position(3, 5))
+        self.valid_positions.append(Position(3, 6))
 
         # fifth row
-        self.valid_positions.append(Postion(4, 2))
-        self.valid_positions.append(Postion(4, 3))
-        self.valid_positions.append(Postion(4, 4))
+        self.valid_positions.append(Position(4, 2))
+        self.valid_positions.append(Position(4, 3))
+        self.valid_positions.append(Position(4, 4))
 
         # sixth row
-        self.valid_positions.append(Postion(5, 1))
-        self.valid_positions.append(Postion(5, 3))
-        self.valid_positions.append(Postion(5, 5))
+        self.valid_positions.append(Position(5, 1))
+        self.valid_positions.append(Position(5, 3))
+        self.valid_positions.append(Position(5, 5))
 
         # seventh row
-        self.valid_positions.append(Postion(6, 0))
-        self.valid_positions.append(Postion(6, 3))
-        self.valid_positions.append(Postion(6, 6))
+        self.valid_positions.append(Position(6, 0))
+        self.valid_positions.append(Position(6, 3))
+        self.valid_positions.append(Position(6, 6))
         
     '''
     making the some of the boxes as usable boxes

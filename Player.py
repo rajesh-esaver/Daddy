@@ -1,8 +1,8 @@
-import Position
-import Board
-import Move
+from Board import Board
+from Position import Position
+from Move import Move
 class Player:
-    def __init__(self,board,symbol=1):
+    def __init__(self,board,symbol="1"):
         self.no_of_coins = 9
         self.times_can_place_coin = self.no_of_coins
         self.board = board
@@ -39,7 +39,7 @@ class Player:
     '''
     this method checks if there is a Daddy exist for placed position
     '''
-    def checkIfItIsDaddy(self,position):
+    def checkIfItIsDaddyForPosition(self,position):
         # check should happen for both column and row
         box = self.board.getBox(position)
         if(box==None):
@@ -58,7 +58,7 @@ class Player:
     '''
     this method checks if there is a Daddy exist for moved coin
     '''
-    def checkIfItIsDaddy(self,move):
+    def checkIfItIsDaddyForMove(self,move):
         # check should happen for either column or row accordingly
         # assuming src_position and dst_position are valid
         src_position = move.src_position
@@ -155,7 +155,7 @@ class Player:
         if(src_position.column < dst_position.column):
             # moved forward in the row
             for curr_col in range(src_position.column+1,self.board.board_length):
-                curr_box = self.board.getBox(curr_row,curr_col)
+                curr_box = self.board.getBoxFromRowAndColumn(curr_row,curr_col)
                 if(curr_box.isBoxAllowed()):
                     if(curr_box.isBoxAvailable() and dst_position.column==curr_col):
                         return True
@@ -164,7 +164,7 @@ class Player:
         elif(dst_position.column < src_position.column):
             # moved backward in the row
             for curr_col in range(src_position.column - 1,-1,-1):
-                curr_box = self.board.getBox(curr_row, curr_col)
+                curr_box = self.board.getBoxFromRowAndColumn(curr_row, curr_col)
                 if (curr_box.isBoxAllowed()):
                     if (curr_box.isBoxAvailable() and dst_position.column == curr_col):
                         return True
@@ -195,7 +195,7 @@ class Player:
         if(src_position.row < dst_position.row):
             # moved forward in the column
             for curr_row in range(src_position.row + 1, self.board.board_length):
-                curr_box = self.board.getBox(curr_row, curr_col)
+                curr_box = self.board.getBoxFromRowAndColumn(curr_row, curr_col)
                 if (curr_box.isBoxAllowed()):
                     if (curr_box.isBoxAvailable() and dst_position.row == curr_row):
                         return True
@@ -204,7 +204,7 @@ class Player:
         elif(dst_position.row < src_position.row):
             # moved backward in the column
             for curr_row in range(src_position.row - 1,-1,-1):
-                curr_box = self.board.getBox(curr_row, curr_col)
+                curr_box = self.board.getBoxFromRowAndColumn(curr_row, curr_col)
                 if (curr_box.isBoxAllowed()):
                     if (curr_box.isBoxAvailable() and dst_position.row == curr_row):
                         return True
@@ -223,7 +223,7 @@ class Player:
         # since in row 3 total 6 coins can be there
         if(position.row!=3):
             for i in range(0, self.board.board_length):
-                box_in_row = self.board[position.row][i]
+                box_in_row = self.board.getBoxFromRowAndColumn(position.row,i)
                 if (box_in_row != None and box_in_row.symbol == self.player_symbol):
                     count += 1
         else:
@@ -234,7 +234,7 @@ class Player:
                 i = 4
                 n = self.board.board_length
             for i in range(i,n):
-                box_in_row = self.board[position.row][i]
+                box_in_row = self.board.getBoxFromRowAndColumn(position.row,i)
                 if (box_in_row != None and box_in_row.symbol == self.player_symbol):
                     count += 1
 
@@ -250,7 +250,7 @@ class Player:
         count = 0
         if (position.column != 3):
             for i in range(0, self.board.board_length):
-                box_in_col = self.board[i][position.column]
+                box_in_col = self.board.getBoxFromRowAndColumn(i,position.column)
                 if (box_in_col != None and box_in_col.symbol == self.player_symbol):
                     count += 1
         else:
@@ -261,7 +261,7 @@ class Player:
                 i = 4
                 n = self.board.board_length
             for i in range(i, n):
-                box_in_col = self.board[i][position.column]
+                box_in_col = self.board.getBoxFromRowAndColumn(i,position.column)
                 if (box_in_col != None and box_in_col.symbol == self.player_symbol):
                     count += 1
 
