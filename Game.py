@@ -27,7 +27,6 @@ class Game:
         return self.readPosition()
 
     def readMove(self):
-        # TODO loop this until got the valid move
         print("Need to enter both source and destination positions")
         print("Enter source Position(row,column)")
         src_position = self.readPosition()
@@ -68,6 +67,7 @@ while(True):
                     # it's a daddy you can remove opponent coin
                     game.displayGameInfo()
                     print(msg)
+                    # TODO check if there is valid position to remove opponents coin
                     while(True):
                         rem_position = game.readPositionForOpponentCoinRemove()
                         ret_val = curr_player.removeOpponentsCoin(opponent_player,rem_position)
@@ -94,6 +94,7 @@ while(True):
                         # it's a daddy you can remove opponent coin
                         game.displayGameInfo()
                         print(msg)
+                        # TODO check if there is valid position to remove opponents coin
                         while(True):
                             rem_position = game.readPositionForOpponentCoinRemove()
                             ret_val = curr_player.removeOpponentsCoin(opponent_player,rem_position)
