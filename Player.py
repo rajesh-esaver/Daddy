@@ -20,11 +20,10 @@ class Player:
         box.updateSymbol(self.player_symbol)
 
         # decrease the times_can_place_coin, since player placed the coin
-        # TODO test it - self.times_can_place_coin -= 1
-        self.reduceNoTimesCanMove(self)
+        self.reduceNoTimesCanPlaceCoin(self)
 
-        # decreasing the no_of_coins
-        self.reduceCoin(self)
+        # decreasing the no_of_coins (shouldn't decrease no_of_coins because after placing the coin he still have his coin)
+        # self.reduceCoin(self)
 
         return [True,"Placed Coin successfully"]
 
@@ -32,7 +31,7 @@ class Player:
         if(player.no_of_coins>0):
             player.no_of_coins -= 1
 
-    def reduceNoTimesCanMove(self,player):
+    def reduceNoTimesCanPlaceCoin(self,player):
         if(player.times_can_place_coin>0):
             player.times_can_place_coin -= 1
 
@@ -47,11 +46,11 @@ class Player:
 
         # check row side
         if(self.checkDaddyInRow(position)):
-            return [True,"Daddy in row"]
+            return [True,"Daddy in row: "+str(position.row)]
 
         # check column side
         if(self.checkDaddyInColumn(position)):
-            return [True, "Daddy in column"]
+            return [True, "Daddy in column: "+str(position.column)]
 
         return [False,"No daddy at this juncture"]
 
@@ -68,11 +67,11 @@ class Player:
         if(row_diff>0):
             # moved coin in the same column
             if(self.checkDaddyInRow(dst_position)):
-                return [True, "Daddy in row"]
+                return [True, "Daddy in row: "+str(dst_position.row)]
         else:
             # movied coin the the same row
             if(self.checkDaddyInColumn(dst_position)):
-                return [True, "Daddy in column"]
+                return [True, "Daddy in column: "+str(dst_position.column)]
 
         return [False,"No daddy at this juncture"]
 
@@ -81,7 +80,7 @@ class Player:
     '''
     def removeOpponentsCoin(self,opponent_player,position):
         box = self.board.getBox(position)
-        if(box==None or box.isBoxAllowed()==False or box.symbol==self.player_symbol):
+        if(box==None or box.isBoxAllowed()==False or box.isBoxAvailable()==True or box.symbol==self.player_symbol):
             return [False, "this is not a valid box to remove your opponent coin"]
 
         # TODO check that coin to be removed is not in Daddy
@@ -105,7 +104,7 @@ class Player:
         src_box = self.board.getBox(src_position)
         dst_box = self.board.getBox(dst_position)
 
-        if(src_box==None or src_box.isBoxAllowed()==False or src_box.symobl!=self.player_symbol):
+        if(src_box==None or src_box.isBoxAllowed()==False or src_box.symbol!=self.player_symbol):
             return [False, "this is not a valid source box position"]
 
         if (dst_box == None or dst_box.isBoxAllowed()==False or dst_box.isBoxAvailable()==False):
