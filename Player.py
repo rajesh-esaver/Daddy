@@ -45,11 +45,11 @@ class Player:
             return [False,"Not a valid position"]
 
         # check row side
-        if(self.checkDaddyInRow(position)):
+        if(self.checkDaddyInRow(position,self)):
             return [True,"Daddy in row: "+str(position.row)]
 
         # check column side
-        if(self.checkDaddyInColumn(position)):
+        if(self.checkDaddyInColumn(position,self)):
             return [True, "Daddy in column: "+str(position.column)]
 
         return [False,"No daddy at this juncture"]
@@ -66,11 +66,11 @@ class Player:
         row_diff = abs(src_position.row-dst_position.row)
         if(row_diff>0):
             # moved coin in the same column
-            if(self.checkDaddyInRow(dst_position)):
+            if(self.checkDaddyInRow(dst_position,self)):
                 return [True, "Daddy in row: "+str(dst_position.row)]
         else:
             # movied coin the the same row
-            if(self.checkDaddyInColumn(dst_position)):
+            if(self.checkDaddyInColumn(dst_position,self)):
                 return [True, "Daddy in column: "+str(dst_position.column)]
 
         return [False,"No daddy at this juncture"]
@@ -300,13 +300,13 @@ class Player:
     '''
     checking for daddy in row
     '''
-    def checkDaddyInRow(self,position):
+    def checkDaddyInRow(self,position,player):
         count = 0
         # since in row 3 total 6 coins can be there
         if(position.row!=3):
             for i in range(0, self.board.board_length):
                 box_in_row = self.board.getBoxFromRowAndColumn(position.row,i)
-                if (box_in_row != None and box_in_row.symbol == self.player_symbol):
+                if (box_in_row != None and box_in_row.symbol == player.player_symbol):
                     count += 1
         else:
             if(position.column<=3):
@@ -317,7 +317,7 @@ class Player:
                 n = self.board.board_length
             for i in range(i,n):
                 box_in_row = self.board.getBoxFromRowAndColumn(position.row,i)
-                if (box_in_row != None and box_in_row.symbol == self.player_symbol):
+                if (box_in_row != None and box_in_row.symbol == player.player_symbol):
                     count += 1
 
         if(count == self.board.coins_for_daddy):
@@ -328,12 +328,12 @@ class Player:
     '''
     checking for daddy in column
     '''
-    def checkDaddyInColumn(self,position):
+    def checkDaddyInColumn(self,position,player):
         count = 0
         if (position.column != 3):
             for i in range(0, self.board.board_length):
                 box_in_col = self.board.getBoxFromRowAndColumn(i,position.column)
-                if (box_in_col != None and box_in_col.symbol == self.player_symbol):
+                if (box_in_col != None and box_in_col.symbol == player.player_symbol):
                     count += 1
         else:
             if (position.row <= 3):
@@ -344,7 +344,7 @@ class Player:
                 n = self.board.board_length
             for i in range(i, n):
                 box_in_col = self.board.getBoxFromRowAndColumn(i,position.column)
-                if (box_in_col != None and box_in_col.symbol == self.player_symbol):
+                if (box_in_col != None and box_in_col.symbol == player.player_symbol):
                     count += 1
 
         if (count == self.board.coins_for_daddy):
