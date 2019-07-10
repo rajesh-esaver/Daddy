@@ -132,6 +132,89 @@ class Player:
 
         return [True, "Coin moved successfully"]
 
+    def checkIsThereValidCoinToMakeMove(self):
+        for row in range(self.board.board_length):
+            for col in range(self.board.board_length):
+                position = Position(row,col)
+                box = self.board.getBox(position)
+                if(box!=None and box.isBoxAllowed()==True and box.symbol==self.player_symbol):
+                    if(self.checkIfThereValidDstFromSource(position)):
+                        return [True,"Valid source position to make move: "+str(position)]
+        return [False,"No valid position for you to make move"]
+
+    '''
+    this method check if there is valid position to move the coin from source position
+    '''
+    def checkIfThereValidDstFromSource(self,position):
+        # check in the row forward
+        if(position.row==3):
+            if(position.column<4):
+                # if are in middle row and column < 4 then shouldn't check valid position after 4th column
+                n = 4
+            else:
+                n = self.board.board_length
+        else:
+            n = self.board.board_length
+        for col in range(position.column+1,n):
+            curr_box = self.board.getBoxFromRowAndColumn(position.row,col)
+            if(curr_box.isBoxAllowed()):
+                if(curr_box.isBoxAvailable()):
+                    return True
+                else:
+                    break
+
+        # check in the row backward
+        if (position.row == 3):
+            if (position.column > 4):
+                # if are in middle row and column < 4 then shouldn't check valid position after 4th column
+                n = 4
+            else:
+                n = -1
+        else:
+            n = -1
+        for col in range(position.column-1,n,-1):
+            curr_box = self.board.getBoxFromRowAndColumn(position.row,col)
+            if(curr_box.isBoxAllowed()):
+                if(curr_box.isBoxAvailable()):
+                    return True
+                else:
+                    break
+
+        # check in column forward
+        if(position.column==3):
+            if(position.row<4):
+                # if are in middle column and row < 4 then shouldn't check valid position after 4th row
+                n = 4
+            else:
+                n = self.board.board_length
+        else:
+            n = self.board.board_length
+        for row in range(position.row+1,n):
+            curr_box = self.board.getBoxFromRowAndColumn(row,position.column)
+            if (curr_box.isBoxAllowed()):
+                if (curr_box.isBoxAvailable()):
+                    return True
+                else:
+                    break
+
+        # check in column backward
+        if (position.column == 3):
+            if(position.row>4):
+                # if are in middle columns and row > 4 then shouldn't check valid position before 4th row
+                n = 4
+            else:
+                n = -1
+        else:
+            n = -1
+        for row in range(position.row-1,n,-1):
+            curr_box = self.board.getBoxFromRowAndColumn(row,position.column)
+            if (curr_box.isBoxAllowed()):
+                if (curr_box.isBoxAvailable()):
+                    return True
+                else:
+                    break
+
+        return False
 
     '''
     check whether destination position is next valid position from source in row
@@ -149,7 +232,7 @@ class Player:
             elif(src_position.column>3 and dst_position.column>3):
                 pass
             else:
-                False
+                return False
 
         if(src_position.column < dst_position.column):
             # moved forward in the row
@@ -189,7 +272,7 @@ class Player:
             elif(src_position.row > 3 and dst_position.row > 3):
                 pass
             else:
-                False
+                return False
 
         if(src_position.row < dst_position.row):
             # moved forward in the column

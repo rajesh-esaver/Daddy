@@ -3,3 +3,6 @@ class Position:
         self.row = row
         self.column = column
 
+    def __str__(self):
+        return "Position row="+str(self.row)+", column="+str(self.column)
+
