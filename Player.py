@@ -83,8 +83,11 @@ class Player:
         if(box==None or box.isBoxAllowed()==False or box.isBoxAvailable()==True or box.symbol==self.player_symbol):
             return [False, "this is not a valid box to remove your opponent coin"]
 
-        # TODO check that coin to be removed is not in Daddy
-        # TODO is there valid opponent coin that can be removed
+        # TODOcheck that coin to be removed is not in Daddy
+        if (self.checkDaddyInRow(position, opponent_player)):
+            return [False, "It's in daddy can't remove this coin"]
+        if (self.checkDaddyInColumn(position, opponent_player)):
+            return [False, "It's in daddy can't remove this coin"]
 
         # making the box as empty
         box.updateSymbol()
@@ -132,6 +135,9 @@ class Player:
 
         return [True, "Coin moved successfully"]
 
+    '''
+    function for checking if there is valid move for current to user to make move
+    '''
     def checkIsThereValidCoinToMakeMove(self):
         for row in range(self.board.board_length):
             for col in range(self.board.board_length):
@@ -141,6 +147,21 @@ class Player:
                     if(self.checkIfThereValidDstFromSource(position)):
                         return [True,"Valid source position to make move: "+str(position)]
         return [False,"No valid position for you to make move"]
+
+    '''
+    function for checking if there is valid opponent coin that can be removed
+    '''
+    def checkIfThereIsValidCoinToRemove(self,opponent_player):
+        for row in range(self.board.board_length):
+            for col in range(self.board.board_length):
+                position = Position(row,col)
+                box = self.board.getBox(position)
+                if(box.isBoxAllowed() and box.symbol==opponent_player.player_symbol):
+                    if(self.checkDaddyInRow(position,opponent_player)==False):
+                        if(self.checkDaddyInColumn(position,opponent_player)==False):
+                            return [True, "Valid coin that can be removed: " + str(position)]
+        return [False,"No valid coin of opponent player to remove"]
+
 
     '''
     this method check if there is valid position to move the coin from source position

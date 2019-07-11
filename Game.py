@@ -67,15 +67,20 @@ while(True):
                     # it's a daddy you can remove opponent coin
                     game.displayGameInfo()
                     print(msg)
-                    # TODO check if there is valid position to remove opponents coin
-                    while(True):
-                        rem_position = game.readPositionForOpponentCoinRemove()
-                        ret_val = curr_player.removeOpponentsCoin(opponent_player,rem_position)
-                        status, msg = ret_val[0], ret_val[1]
-                        if(status):
-                            break
-                        else:
-                            print(msg)
+                    # check if there is valid position to remove opponents coin
+                    ret_val = curr_player.checkIfThereIsValidCoinToRemove(opponent_player)
+                    status, msg = ret_val[0], ret_val[1]
+                    if(status):
+                        while(True):
+                            rem_position = game.readPositionForOpponentCoinRemove()
+                            ret_val = curr_player.removeOpponentsCoin(opponent_player,rem_position)
+                            status, msg = ret_val[0], ret_val[1]
+                            if(status):
+                                break
+                            else:
+                                print(msg)
+                    else:
+                        print(msg)
                 break
             else:
                 print(msg)
@@ -83,6 +88,7 @@ while(True):
         # need to check if there is valid position to move
         game.displayPlayerInfo(curr_player)
         if(curr_player.no_of_coins>2):
+            # check if there is valid position to make move
             ret_val = curr_player.checkIsThereValidCoinToMakeMove()
             status, msg = ret_val[0], ret_val[1]
             if(status):
@@ -97,15 +103,20 @@ while(True):
                             # it's a daddy you can remove opponent coin
                             game.displayGameInfo()
                             print(msg)
-                            # TODO check if there is valid position to remove opponents coin
-                            while(True):
-                                rem_position = game.readPositionForOpponentCoinRemove()
-                                ret_val = curr_player.removeOpponentsCoin(opponent_player,rem_position)
-                                status, msg = ret_val[0], ret_val[1]
-                                if (status):
-                                    break
-                                else:
-                                    print(msg)
+                            # check if there is valid position to remove opponents coin
+                            ret_val = curr_player.checkIfThereIsValidCoinToRemove(opponent_player)
+                            status, msg = ret_val[0], ret_val[1]
+                            if(status):
+                                while(True):
+                                    rem_position = game.readPositionForOpponentCoinRemove()
+                                    ret_val = curr_player.removeOpponentsCoin(opponent_player,rem_position)
+                                    status, msg = ret_val[0], ret_val[1]
+                                    if (status):
+                                        break
+                                    else:
+                                        print(msg)
+                            else:
+                                print(msg)
                         break
                     else:
                         print(msg)
